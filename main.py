@@ -10,7 +10,7 @@ from utils.postres import obtener_postre_random, obtener_postre_total_random, ob
 from utils.timer import iniciar_timer_minutos, iniciar_timer_segundos, reproducir_alarma
 from utils.suplementos import recomendar_suplementos
 from utils.lista_mercado import obtener_lista_mercado_fit, generar_lista_personalizada
-from utils.lista_generador import generar_lista_personalizada
+
 
 
 
