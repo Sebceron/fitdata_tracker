@@ -30,4 +30,6 @@ def recomendar_suplementos(objetivo):
             "ZMA"
         ]
     }
+
     return suplementos.get(objetivo, ["No hay recomendaciones para este objetivo."])
+
