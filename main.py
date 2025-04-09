@@ -7,6 +7,7 @@ from utils.ejercicio import generar_rutina_biseriada
 from utils.timer import iniciar_timer_minutos, iniciar_timer_segundos, reproducir_alarma
 from utils.postres import obtener_postre_random, obtener_postre_total_random, obtener_postre_por_categoria, POSTRES_CATEGORIZADOS
 from utils.timer import iniciar_timer_minutos, iniciar_timer_segundos, reproducir_alarma
+from utils.suplementos import recomendar_suplementos
 
 
 
@@ -14,9 +15,10 @@ st.set_page_config(page_title="Método Cerón", layout="centered")
 st.title("🏋️‍♂️ Método Cerón - Asistente Fitness Inteligente")
 
 # Tabs
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
     "🧍 IMC", "🔥 Calorías Objetivo", "🥦 Alimentos",
-    "🏋️ Rutina Cerón", "🍩 Postre Fit", "⏰ Timer", "🍽️ Postres filtrados"
+    "🏋️ Rutina Cerón", "🍩 Postre Fit", "⏰ Timer", "🍽️ Postres filtrados", "💊 Suplementos deportivos por objetivo"
+
 ])
 
 # -------------------------------
@@ -172,3 +174,29 @@ with tab7:
             st.success(f"**Postre recomendado:** {postre}")
 
 
+# -------------------------------
+# TAB 8 - Suplementos deportivos por objetivo
+# -------------------------------
+with tab8:
+    st.subheader("💊 Recomendador de Suplementos Deportivos")
+    st.markdown(
+        "Selecciona tu objetivo principal de entrenamiento y obtendrás una lista de suplementos comunes "
+        "utilizados por deportistas y culturistas según esa meta."
+    )
+
+    # Menú desplegable con los objetivos
+    objetivo = st.selectbox("Selecciona tu objetivo principal:", [
+        "Ganar masa muscular",
+        "Perder grasa corporal",
+        "Mejorar rendimiento y energía",
+        "Recuperación muscular"
+    ])
+
+    # Botón para generar las recomendaciones
+    if st.button("🔍 Recomendar suplementos"):
+        recomendaciones = recomendar_suplementos(objetivo)
+
+        # Mostrar cada suplemento recomendado
+        st.success("Recomendaciones del coach Cerón:")
+        for suplemento in recomendaciones:
+            st.markdown(f"- **{suplemento}**")
