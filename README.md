@@ -94,6 +94,12 @@ pip install -r requirements.txt
 streamlit run main.py
 
 
+## 🌐 Accede a la App Online
+
+▶️ **[Haz clic aquí para abrir FitMind](https://ceronfit-workout.streamlit.app/)**  
+Puedes compartir este enlace en tu Instagram, portafolio o con tus clientes.
+
+
 
 ⸻
 
