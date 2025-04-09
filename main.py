@@ -5,7 +5,7 @@ from utils.calorias import calcular_tmb, calcular_calorias_objetivo
 from utils.alimentos import buscar_alimento
 from utils.ejercicio import generar_rutina_biseriada
 from utils.timer import iniciar_timer_minutos, iniciar_timer_segundos, reproducir_alarma
-from utils.postres import obtener_postre_total_random, obtener_postre_por_categoria, POSTRES_CATEGORIZADOS
+from utils.postres import obtener_postre_random, obtener_postre_total_random, obtener_postre_por_categoria, POSTRES_CATEGORIZADOS
 from utils.timer import iniciar_timer_minutos, iniciar_timer_segundos, reproducir_alarma
 
 
@@ -150,10 +150,6 @@ with tab6:
         iniciar_timer_segundos(segundos)
         reproducir_alarma()
 
-        
-    audio_file = open("audio/CoachCeron.mp3", "rb")
-    audio_bytes = audio_file.read()
-    st.audio(audio_bytes, format='audio/mp3', start_time=0)
 
 
 
