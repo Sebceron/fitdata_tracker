@@ -170,3 +170,5 @@ with tab7:
         if st.button("Mostrar postre por categoría"):
             postre = obtener_postre_por_categoria(categoria)
             st.success(f"**Postre recomendado:** {postre}")
+
+

@@ -164,3 +164,5 @@ def obtener_postre_por_categoria(categoria):
         return random.choice(POSTRES_CATEGORIZADOS[categoria])
     return "No hay postres disponibles para esta categoría."
 
+def obtener_postre_random():
+    return random.choice(POSTRES_TODOS)
