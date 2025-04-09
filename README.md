@@ -1,35 +1,39 @@
-# 💪 FitData Tracker - Plataforma Fitness Interactiva
+# 🧠 FitMind | Plataforma Fitness Inteligente
 
-**FitData Tracker** es una aplicación web fitness desarrollada con Python y Streamlit. Diseñada para atletas, culturistas y personas que desean mejorar su salud y nutrición, esta herramienta ofrece cálculos personalizados, buscadores, rutinas de entrenamiento y recomendaciones de postres saludables.
+**FitMind** es una app web fitness interactiva y potente desarrollada en Python + Streamlit. Está diseñada para atletas, culturistas, personas fitness, principiantes, diabéticos, y cualquier persona que quiera transformar su cuerpo, su salud y su estilo de vida con herramientas reales y fáciles de usar.
 
 ---
 
-## 🚀 ¿Qué puedes hacer en FitData Tracker?
+## 🚀 ¿Qué puedes hacer con FitMind?
 
 ### 1. 🧍 Calculadora de IMC
 - Calcula tu Índice de Masa Corporal.
-- Obtén una clasificación según tu peso y estatura.
+- Clasificación automática según tu estatura y peso.
+- Visual e intuitiva para cualquier nivel de usuario.
 
 ### 2. 🔥 Calculadora de Calorías Objetivo
-- Calcula tus necesidades calóricas según tu meta (perder, mantener o ganar peso).
-- Basado en tu nivel de actividad y metabolismo basal (TMB).
+- Ingresa tus datos y recibe tu requerimiento calórico personalizado.
+- Ajustada por sexo, edad, actividad física y objetivo (ganar, mantener o perder peso).
+- Basado en la fórmula TMB + multiplicador de actividad.
 
-### 3. 🥦 Buscador de Alimentos
-- Busca alimentos usando una API nutricional.
-- Consulta calorías, proteínas, grasas y carbohidratos por cada 100g.
+### 3. 🥦 Buscador de Alimentos Inteligente
+- Conectado a la API de Open Food Facts.
+- Busca cualquier alimento por nombre.
+- Muestra calorías, proteínas, grasas y carbohidratos por cada 100g.
 
-### 4. 🏋️ Rutina Random estilo Cerón
-- Elige dos músculos y genera automáticamente una rutina biseriada.
-- Con cargas, tiempos de recuperación y combinaciones aleatorias.
-- Entrena como el coach Cerón con estructura real de gimnasio.
+### 4. 🏋️‍♂️ Rutina Random estilo Cerón
+- Elige dos músculos desde un dropdown y genera una rutina biseriada completa.
+- Cargas aleatorias, descansos estratégicos y combinaciones realistas.
+- Diseñada como entrenamientos reales de gimnasio para fuerza e hipertrofia.
 
-### 5. ⏱️ Temporizador Fitness + Audio Motivacional
-- Temporizador por minutos y segundos.
-- Audio de motivación estilo entrenador mientras haces ejercicio.
-- Alarma al finalizar.
+### 5. ⏱️ Temporizador Fitness con Audio Motivacional
+- Timer en minutos y segundos para tus series.
+- Audio estilo "Coach Cerón" que te motiva desde el inicio hasta la última repetición.
+- Visual moderno con alarma automática.
 
-### 6. 🍰 Recomendador de Postres Saludables
-- Obtén un postre fit al azar o filtrado por categoría:
+### 6. 🍩 Recomendador de Postres Saludables por Categoría
+- Postres dulces, bajos en calorías, ideales para fitness y diabéticos.
+- Puedes recibir uno al azar o filtrar por categoría:
   - “Pre-entreno dulce”
   - “Para antojo nocturno”
   - “Apto para diabéticos”
@@ -37,16 +41,14 @@
 
 ---
 
-## 🎯 Objetivo del Proyecto
+## 🧠 ¿Por qué creé este proyecto?
 
-Este proyecto fue desarrollado como parte de mi portafolio profesional para demostrar habilidades en:
+**FitMind** forma parte de mi portafolio profesional como futuro científico de datos. Este proyecto es una combinación de:
 
-- Python y lógica de programación
-- Consumo de APIs externas
-- Visualización con Streamlit
-- Diseño de interfaces UI/UX
-- Trabajo con módulos, carpetas y buenas prácticas de código
-- Enfoque real en negocio y salud
+- Salud real + ciencia de datos
+- Python aplicado a problemas reales
+- Interfaz visual moderna
+- Enfoque práctico para personas que desean resultados
 
 ---
 
@@ -54,24 +56,24 @@ Este proyecto fue desarrollado como parte de mi portafolio profesional para demo
 
 - `Python 3`
 - `Streamlit`
-- `Requests`
 - `Pandas`
-- `HTML audio integration`
-- `APIs públicas (OpenFoodFacts)`
+- `Requests`
+- `OpenFoodFacts API`
+- `HTML + Audio`
+- `GitHub Pages`
 
 ---
 
 ## 🌐 Accede a la App Online
 
-▶️ **[Haz clic aquí para abrir FitData Tracker](https://tu-enlace-aqui.streamlit.app)**
-
-Puedes interactuar desde tu navegador y compartirla con tus seguidores o clientes.
+▶️ **[Haz clic aquí para abrir FitMind](https://ceronfit-workout.streamlit.app/)**  
+Puedes compartir este enlace en tu Instagram, portafolio o con tus clientes.
 
 ---
 
-## 🧑‍💻 Cómo usar el proyecto localmente
+## 🧑‍💻 ¿Cómo usar FitMind localmente?
 
-1. Clona este repositorio:
+1. Clona el repositorio:
 
 ```bash
 git clone https://github.com/sebceron/fitdata_tracker.git
