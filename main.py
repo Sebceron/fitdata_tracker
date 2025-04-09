@@ -10,8 +10,8 @@ from utils.timer import iniciar_timer_minutos, iniciar_timer_segundos, reproduci
 
 
 
-st.set_page_config(page_title="FitData Tracker", layout="centered")
-st.title("🏋️‍♂️ FitData Tracker - Dashboard de Salud")
+st.set_page_config(page_title="Método Cerón", layout="centered")
+st.title("🏋️‍♂️ Entrena ConCiencia con nuestro Asistente Fitness Inteligente")
 
 # Tabs
 tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
