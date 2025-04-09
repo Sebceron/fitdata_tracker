@@ -156,6 +156,11 @@ POSTRES_CATEGORIZADOS = {
     ]
 }
 
+
+# Esta función FALTABA antes
+def obtener_postre_random():
+    return random.choice(POSTRES_TODOS)
+
 def obtener_postre_total_random():
     return random.choice(POSTRES_TODOS)
 
@@ -163,6 +168,3 @@ def obtener_postre_por_categoria(categoria):
     if categoria in POSTRES_CATEGORIZADOS:
         return random.choice(POSTRES_CATEGORIZADOS[categoria])
     return "No hay postres disponibles para esta categoría."
-
-def obtener_postre_random():
-    return random.choice(POSTRES_TODOS)
