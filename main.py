@@ -1,4 +1,5 @@
 # main.py
+import pandas as pd
 import streamlit as st
 from utils.imc import calcular_imc, clasificar_imc
 from utils.calorias import calcular_tmb, calcular_calorias_objetivo
@@ -8,6 +9,8 @@ from utils.timer import iniciar_timer_minutos, iniciar_timer_segundos, reproduci
 from utils.postres import obtener_postre_random, obtener_postre_total_random, obtener_postre_por_categoria, POSTRES_CATEGORIZADOS
 from utils.timer import iniciar_timer_minutos, iniciar_timer_segundos, reproducir_alarma
 from utils.suplementos import recomendar_suplementos
+from utils.lista_mercado import obtener_lista_mercado_fit, generar_lista_personalizada
+
 
 
 
@@ -15,10 +18,10 @@ st.set_page_config(page_title="Método Cerón", layout="centered")
 st.title("🏋️‍♂️ Método Cerón - Asistente Fitness Inteligente")
 
 # Tabs
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
     "🧍 IMC", "🔥 Calorías Objetivo", "🥦 Alimentos",
-    "🏋️ Rutina Cerón", "🍩 Postre Fit", "⏰ Timer", "🍽️ Postres filtrados", "💊 Suplementos deportivos por objetivo"
-
+    "🏋️ Rutina Cerón", "🍩 Postre Fit", "⏰ Timer",
+    "🍽️ Postres filtrados", "💊 Autogenerador de suplementos", "🛒 Mercado Fit inteligente"
 ])
 
 # -------------------------------
@@ -201,3 +204,47 @@ with tab8:
         for suplemento in recomendaciones:
             st.markdown(f"- **{suplemento}**")
 
+
+
+# -------------------------------
+# TAB 9 - Listas de Mercado inteligente
+# -------------------------------
+with tab9:
+    st.subheader("🛒 Lista de Mercado Fitness Personalizada")
+    st.markdown("Selecciona tu objetivo y genera una lista aleatoria de alimentos saludables basada en tu estilo fitness.")
+
+    objetivo_usuario = st.selectbox("Selecciona tu objetivo de entrenamiento:", ["Mantenimiento", "Volumen", "Definición"])
+    restricciones = st.multiselect("¿Tienes alguna restricción dietaria?", [
+    "Sin gluten", "Sin lactosa", "Vegano", "Keto", "Diabético", "Sin frutos secos"
+])
+
+
+    if st.button("🎯 Generar lista de mercado"):
+        # Generar lista
+        lista = generar_lista_personalizada(objetivo_usuario)
+        st.success("Lista generada con éxito.")
+
+        # Mostrar en secciones por categoría
+        for categoria, items in lista.items():
+            st.markdown(f"### {categoria}")
+            for item in items:
+                st.markdown(f"- {item}")
+            st.markdown("---")
+
+        # Convertir a DataFrame
+        import pandas as pd
+        df_lista = pd.DataFrame([
+            (categoria, alimento)
+            for categoria, alimentos in lista.items()
+            for alimento in alimentos
+        ], columns=["Categoría", "Alimento"])
+
+        # Botón de descarga con estilo
+        st.download_button(
+            label="📥 Descargar lista de mercado (Excel)",
+            data=df_lista.to_csv(index=False).encode("utf-8"),
+            file_name="lista_mercado_fit.csv",
+            mime="text/csv",
+        )
+
+        
