@@ -1,78 +1,107 @@
-# 💪 FitData Tracker - Plataforma Fitness Interactiva
+💪 Método Cerón - FitData Tracker
 
-**FitData Tracker** es una aplicación web fitness desarrollada con Python y Streamlit. Diseñada para atletas, culturistas y personas que desean mejorar su salud y nutrición, esta herramienta ofrece cálculos personalizados, buscadores, rutinas de entrenamiento y recomendaciones de postres saludables.
+FitData Tracker es una aplicación web fitness 100% interactiva, desarrollada en Python con Streamlit, diseñada para culturistas, atletas y entusiastas de la salud. Esta herramienta forma parte de mi portafolio profesional como Científico de Datos y programador orientado al impacto real: combina nutrición, entrenamiento y estilo de vida saludable con tecnología de vanguardia.
 
----
+⸻
 
-## 🚀 ¿Qué puedes hacer en FitData Tracker?
+🚀 Características principales
 
-### 1. 🧍 Calculadora de IMC
-- Calcula tu Índice de Masa Corporal.
-- Obtén una clasificación según tu peso y estatura.
+1. 🧕 Calculadora de IMC
+	•	Calcula tu Índice de Masa Corporal.
+	•	Clasificación según la OMS.
 
-### 2. 🔥 Calculadora de Calorías Objetivo
-- Calcula tus necesidades calóricas según tu meta (perder, mantener o ganar peso).
-- Basado en tu nivel de actividad y metabolismo basal (TMB).
+2. 🔥 Calculadora de Calorías Objetivo
+	•	Calcula tus necesidades calóricas según TMB y nivel de actividad.
+	•	Define tu meta: mantener, perder o ganar peso.
 
-### 3. 🥦 Buscador de Alimentos
-- Busca alimentos usando una API nutricional.
-- Consulta calorías, proteínas, grasas y carbohidratos por cada 100g.
+3. 🥦 Buscador de Alimentos (API integrada)
+	•	Consulta calorías, macros y valores nutricionales.
+	•	Ideal para seguimiento de dieta.
 
-### 4. 🏋️ Rutina Random estilo Cerón
-- Elige dos músculos y genera automáticamente una rutina biseriada.
-- Con cargas, tiempos de recuperación y combinaciones aleatorias.
-- Entrena como el coach Cerón con estructura real de gimnasio.
+4. 🏋️‍♂️ Generador de Rutinas Random estilo Cerón
+	•	Selecciona 2 músculos y obtén una rutina biseriada real.
+	•	Ejercicios, cargas y descansos aleatorios.
+	•	Inspirado en entrenamientos reales de gimnasio.
 
-### 5. ⏱️ Temporizador Fitness + Audio Motivacional
-- Temporizador por minutos y segundos.
-- Audio de motivación estilo entrenador mientras haces ejercicio.
-- Alarma al finalizar.
+5. ⏱️ Temporizador Fitness
+	•	Timer por minutos o segundos para entrenamientos.
+	•	Alarma de fin de tiempo.
 
-### 6. 🍰 Recomendador de Postres Saludables
-- Obtén un postre fit al azar o filtrado por categoría:
-  - “Pre-entreno dulce”
-  - “Para antojo nocturno”
-  - “Apto para diabéticos”
-  - “Bajo en carbohidrato”
+6. 🍠 Recomendador de Postres Saludables
+	•	Postres fitness bajos en calorías y sin azúcar.
+	•	Categorías especiales: antojo nocturno, pre-entreno, apto para diabéticos, etc.
 
----
+7. 🍵 Postres filtrados por Categoría
+	•	Selecciona tipo de antojo o momento del día.
+	•	Obtén un postre compatible con tu estilo de vida.
 
-## 🎯 Objetivo del Proyecto
+8. 💊 Recomendador de Suplementos
+	•	Elige tu objetivo (volumen, definición, energía, recuperación).
+	•	Obtén una lista con suplementos comunes y efectivos.
 
-Este proyecto fue desarrollado como parte de mi portafolio profesional para demostrar habilidades en:
+9. 🛒 Lista de Mercado Fit Inteligente
+	•	Genera listas de alimentos saludables según tu objetivo (volumen, mantenimiento, definición).
+	•	Filtro por restricciones dietéticas: vegano, keto, sin lactosa, diabético, etc.
+	•	Visualización moderna por columnas y acordeones.
+	•	Botón para regenerar lista al instante.
 
-- Python y lógica de programación
-- Consumo de APIs externas
-- Visualización con Streamlit
-- Diseño de interfaces UI/UX
-- Trabajo con módulos, carpetas y buenas prácticas de código
-- Enfoque real en negocio y salud
+⸻
 
----
+🌟 Tecnologías utilizadas
+	•	Python 3.12
+	•	Streamlit
+	•	Requests (para consumo de API externa)
+	•	Pandas (estructuras de datos)
+	•	HTML Audio / UI con Markdown (en Streamlit)
+	•	OpenFoodFacts API (para datos de alimentos)
+	•	Git + GitHub (control de versiones y despliegue)
 
-## 🛠️ Tecnologías utilizadas
+⸻
 
-- `Python 3`
-- `Streamlit`
-- `Requests`
-- `Pandas`
-- `HTML audio integration`
-- `APIs públicas (OpenFoodFacts)`
+🌐 Despliegue online
 
----
+Prueba la app en tu navegador desde cualquier lugar:
 
-## 🌐 Accede a la App Online
+Abrir FitData Tracker Online (vía Streamlit Cloud)
 
-▶️ **[Haz clic aquí para abrir FitData Tracker](https://tu-enlace-aqui.streamlit.app)**
+⸻
 
-Puedes interactuar desde tu navegador y compartirla con tus seguidores o clientes.
+📆 Roadmap de funcionalidades futuras
+	•	Rutinas de personajes famosos (Arnold, CBum, etc.)
+	•	Lista de mercado rápida desde el supermercado (botón 1 clic)
+	•	Ejercicios alternativos para dolores (hombro, rodilla, lumbar)
+	•	Exportación de rutinas o listas a PDF
+	•	Modo principiante / avanzado
+	•	Consejos aleatorios estilo “coach Cerón”
+	•	Gráficas y reportes visuales de progreso
 
----
+⸻
 
-## 🧑‍💻 Cómo usar el proyecto localmente
+🧱‍💻 Instrucciones para usar en local
 
-1. Clona este repositorio:
-
-```bash
-git clone https://github.com/sebceron/fitdata_tracker.git
+# 1. Clonar repositorio
+https://github.com/sebceron/fitdata_tracker.git
 cd fitdata_tracker
+
+# 2. Crear entorno virtual
+python3 -m venv .venv
+source .venv/bin/activate  # (Windows: .venv\Scripts\activate)
+
+# 3. Instalar dependencias
+pip install -r requirements.txt
+
+# 4. Ejecutar la app
+streamlit run main.py
+
+
+
+⸻
+
+🧳 Sobre el autor
+
+Este proyecto ha sido desarrollado por Juan Sebastián Jiménez Cerón, como parte de su portafolio profesional en ciencia de datos y desarrollo de productos con enfoque real en salud y rendimiento. Para colaboraciones o mejoras, contáctame por GitHub o redes.
+
+⸻
+
+© 2025 - FitData Tracker | Proyecto educativo, funcional y profesional. Todos los derechos reservados.
+
