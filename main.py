@@ -1,5 +1,6 @@
 # main.py
 import pandas as pd
+import pandas as pd
 import streamlit as st
 from utils.imc import calcular_imc, clasificar_imc
 from utils.calorias import calcular_tmb, calcular_calorias_objetivo
@@ -22,7 +23,7 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
     "🧍 IMC", "🔥 Calorías Objetivo", "🥦 Alimentos",
     "🏋️ Rutina Cerón", "🍩 Postre Fit", "⏰ Timer",
     "🍽️ Postres filtrados", "💊 Autogenerador de suplementos", "🛒 Mercado Fit inteligente"
-])
+    ])
 
 # -------------------------------
 # TAB 1 - IMC
@@ -246,5 +247,7 @@ with tab9:
             file_name="lista_mercado_fit.csv",
             mime="text/csv",
         )
+
+        
 
 

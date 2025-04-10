@@ -13,7 +13,7 @@ def obtener_lista_mercado_fit():
             "Pescado atún (fresco o enlatado en agua)",
             "Sardinas en lata",
             "Salmón (fresco o enlatado)",
-            "Huevos enteros",
+            "Huevos enteros"
             "Claras de huevo",
             "Queso cottage bajo en grasa",
             "Queso fresco bajo en grasa (cuajada, ricotta light)",
