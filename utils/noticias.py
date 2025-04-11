@@ -1,6 +1,9 @@
 import requests
+from deep_translator import GoogleTranslator
+
 
 def obtener_estudios_nutricion():
+    
     url = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
     params = {
         "query": "nutrition AND open_access:y",
@@ -12,6 +15,7 @@ def obtener_estudios_nutricion():
         response = requests.get(url, params=params)
         data = response.json()
         articulos = data.get("resultList", {}).get("result", [])
+        articulos = sorted(articulos, key=lambda x: x.get("firstPublicationDate", ""), reverse=True)  
 
         estudios = []
         for art in articulos:
@@ -36,3 +40,25 @@ def obtener_estudios_nutricion():
     except Exception as e:
         print(f"Error al obtener estudios: {e}")
         return []
+    
+
+    
+
+# def traducir_texto(texto, idioma_destino="es"):
+def extraer_etiquetas(texto):
+    temas = {
+        "proteína": ["proteína", "protein", "whey"],
+        "entrenamiento": ["entrenamiento", "training", "exercise", "físico"],
+        "dieta": ["dieta", "diet", "keto", "mediterránea"],
+        "suplementos": ["supplement", "creatina", "creatine", "bcaa"],
+        "ayuno": ["ayuno", "fasting", "intermittent"],
+        "peso corporal": ["weight loss", "obesity", "adelgazar", "pérdida"],
+        "cardiovascular": ["cardio", "heart", "corazón"],
+        "diabetes": ["diabetes", "glucosa", "insulina"]
+    }
+    etiquetas = set()
+    texto_lower = texto.lower()
+    for tag, palabras in temas.items():
+        if any(p in texto_lower for p in palabras):
+            etiquetas.add(tag)
+    return etiquetas

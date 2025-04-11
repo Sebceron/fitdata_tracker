@@ -1,3 +1,4 @@
+import random
 import pandas as pd
 import streamlit as st
 from utils.imc import calcular_imc, clasificar_imc
@@ -12,6 +13,7 @@ from utils.noticias import obtener_estudios_nutricion
 import requests
 from streamlit_lottie import st_lottie
 import streamlit.components.v1 as components
+
 
 # --- Cache para estudios científicos ---
 @st.cache_data(ttl=3600)
@@ -28,44 +30,135 @@ def load_lottie_url(url):
 st.set_page_config(page_title="Método Cerón", layout="centered")
 st.title("🏋️‍♂️ Método Cerón - Asistente Fitness Inteligente")
 
-# --- Animación y carrusel de estudios científicos ---
-st.markdown("### 🧬 Estudios científicos recientes sobre nutrición")
-st.caption("Explora los últimos avances y estudios abiertos de nutrición, salud y bienestar:")
-
-animacion_news = load_lottie_url("https://assets1.lottiefiles.com/packages/lf20_j1adxtyb.json")
-st_lottie(animacion_news, height=200, key="news_loader")
-
-estudios = obtener_estudios_cached()
-if estudios:
-    carrusel_html = """
-    <div style="display: flex; overflow-x: auto; gap: 16px; padding: 10px;">
-    """
-    for est in estudios[:5]:
-        card = f"""
-        <div style="flex: 0 0 auto; width: 320px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; box-shadow: 2px 2px 5px #ccc;">
-            <div style="padding: 12px;">
-                <strong>{est['titulo'][:70]}...</strong>
-                <p style="font-size: 13px;">{est['resumen'][:100]}...</p>
-                <p style="font-size: 12px; color: gray;">{est['autores']} - {est['fecha']}</p>
-                <a href="{est['url']}" target="_blank">Leer estudio completo</a>
-            </div>
-        </div>
-        """
-        carrusel_html += card
-    carrusel_html += "</div>"
-    components.html(carrusel_html, height=330)
-else:
-    st.info("Cargando estudios científicos...")
 
 
+frases_motivacionales = [
+    "“Cada célula de tu cuerpo está escuchando lo que comes.”",
+    "“Lo que no se mide, no mejora.”",
+    "“La disciplina es el puente entre tus metas y tus resultados.”",
+    "“Come para nutrir tu cuerpo, no solo para llenarlo.”",
+    "“Tu cuerpo puede soportar casi cualquier cosa. Es tu mente la que debes convencer.”",
+    "“Entrena como si tu vida dependiera de ello… porque lo hace.”",
+    "“No estás comiendo menos, estás comiendo con propósito.”",
+    "“El sudor es solo la grasa llorando por salir.”",
+    "“Lo que haces hoy define tu salud de mañana.”",
+    "“Si no haces tiempo para cuidarte, tendrás que hacer tiempo para enfermarte.”",
+    "“El dolor de la disciplina pesa gramos, el del arrepentimiento toneladas.”",
+    "“No se trata de ser el mejor, sino de ser mejor que ayer.”",
+    "“La comida puede ser tu medicina o tu veneno.”",
+    "“Un cuerpo saludable es un templo, no un basurero.”",
+    "“No estás a dieta, estás diseñando tu nueva vida.”",
+    "“Tu progreso vive donde termina tu zona de confort.”",
+    "“Tu cuerpo escucha todo lo que tu mente dice.”",
+    "“No renuncies por una recaída. Aprende y sigue.”",
+    "“La constancia vence al talento cuando el talento no es constante.”",
+    "“La verdadera transformación comienza en la mente.”",
+    "“El músculo más importante a entrenar es tu voluntad.”",
+    "“Cuidarte no es egoísmo, es supervivencia.”",
+    "“El hambre emocional no se llena con comida.”",
+    "“Descansar también es parte del progreso.”",
+    "“Tu cuerpo no te está castigando, está hablándote.”",
+    "“La salud no es un objetivo, es un estilo de vida.”",
+    "“Cada decisión cuenta, incluso cuando nadie te ve.”",
+    "“Comer bien es un acto de amor propio.”",
+    "“Hazlo por ti, por tu futuro, por tu paz.”",
+    "“La energía que das, es la energía que regresa.”",
+    "“Mueve tu cuerpo, mueve tu vida.”",
+    "“Ningún alimento vale más que tu bienestar.”",
+    "“Si lo vas a hacer, hazlo bien.”",
+    "“No te castigues por caer, celébrate por levantarte.”",
+    "“Los hábitos son la arquitectura de tus resultados.”",
+    "“No necesitas motivación, necesitas compromiso.”",
+    "“La comida no es la enemiga, es información para tus células.”",
+    "“No estás empezando de cero, estás empezando con experiencia.”",
+    "“Hoy puede ser el primer día de tu nueva vida.”",
+    "“La fuerza física comienza con la mental.”",
+    "“No existe progreso sin incomodidad.”",
+    "“Tu cuerpo grita lo que tu mente calla.”",
+    "“El cambio no se siente cómodo, pero sí valioso.”",
+    "“Recuerda por qué empezaste.”",
+    "“No es magia, es ciencia, esfuerzo y consistencia.”",
+    "“El verdadero lujo es estar saludable.”",
+    "“El descanso no es debilidad, es estrategia.”",
+    "“Cuidar tu cuerpo es respetar tu existencia.”",
+    "“Lo fácil viene con costo; lo difícil, con resultados.”",
+    "“Tu cuerpo refleja cómo te tratas.”",
+    "“La comida es el combustible, no la recompensa.”",
+    "“Cada comida es una oportunidad de sanarte.”",
+    "“Invertir en salud es la mejor rentabilidad.”",
+    "“Lo que repites, te forma.”",
+    "“Los cambios grandes nacen de decisiones pequeñas repetidas.”",
+    "“Tu cuerpo, tu responsabilidad, tu revolución.”",
+    "“La transformación no es visible al principio, pero se siente.”",
+    "“Hazlo con miedo, con flojera, pero hazlo.”",
+    "“Cambia la excusa por una intención.”",
+    "“Cada repetición es un voto por la persona que quieres ser.”",
+    "“Lo más difícil no es empezar, es no rendirse.”",
+    "“Entrenar también es sanar.”",
+    "“Cuida tu energía, es lo más valioso que tienes.”",
+    "“Tu salud es el verdadero capital.”",
+    "“Haz ejercicio como si tu mente dependiera de ello… porque lo hace.”",
+    "“No necesitas hacerlo perfecto, solo necesitas hacerlo.”",
+    "“Cada gota de sudor riega tu mejor versión.”",
+    "“Tú eres tu mayor proyecto.”",
+    "“Ser saludable no es un objetivo, es un lenguaje diario.”",
+    "“El esfuerzo siempre deja huella, aunque aún no la veas.”",
+    "“Cuida tu cuerpo. Es el único lugar donde vas a vivir.”"
+]
 
+frase_seleccionada = random.choice(frases_motivacionales)
 
-# --- Tabs ---
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
-    "🢍 IMC", "🔥 Calorías Objetivo", "🥦 Alimentos",
+# Reemplaza la definición de tabs por esta nueva:
+tab0, tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
+    "✨ Inicio", "🧍 IMC", "🔥 Calorías Objetivo", "🥦 Alimentos",
     "🏋️ Rutina Cerón", "🍩 Postre Fit", "⏰ Timer",
-    "🍽️ Postres filtrados", "💊 Suplementos", "🛒 Mercado Fit", "📃 Estudios Científicos"
+    "🍽️ Postres filtrados", "💊 Suplementos", "🛒 Mercado Fit", "📰 Estudios Científicos"
 ])
+
+
+# -------------------------------
+# TAB 0 - Inicio con Frase Motivacional
+# -------------------------------
+with tab0:
+    st.subheader("✨ Bienvenido al Dashboard del Método Cerón")
+
+    bubble_html = f"""
+    <style>
+        .bubble-container {{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px auto;
+        }}
+        .bubble {{
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 20px;
+            padding: 20px 30px;
+            font-size: 20px;
+            max-width: 700px;
+            color: #212529;
+            font-family: 'Segoe UI', sans-serif;
+            box-shadow: 4px 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+        }}
+        .bubble::after {{
+            content: "";
+            position: absolute;
+            bottom: -20px;
+            left: 50px;
+            border-width: 20px 20px 0;
+            border-style: solid;
+            border-color: #f8f9fa transparent transparent transparent;
+        }}
+    </style>
+    <div class="bubble-container">
+        <div class="bubble">{frase_seleccionada}</div>
+    </div>
+    """
+
+    st.markdown(bubble_html, unsafe_allow_html=True)
+    st.info("Esta frase cambiará aleatoriamente cada vez que recargues la página.")
 
 
 
@@ -297,91 +390,100 @@ with tab9:
         
 
 
-# -------------------------------
-# TAB 10 - Noticias Fitness Diarias
-# -------------------------------
 
+# -------------------------------
+# TAB 10 - Estudios Científicos de Nutrición
+# -------------------------------
 
 with tab10:
     st.subheader("🧠 Estudios Científicos de Nutrición y Fitness")
     st.caption("Fuente: Europe PMC")
 
     estudios = obtener_estudios_nutricion()
+
     if estudios:
-        for estudio in estudios:
-            with st.expander(estudio["titulo"]):
-                st.markdown(f"**Autores:** {estudio['autores']}")
-                st.markdown(f"**Fecha:** {estudio['fecha']}")
-                st.write(estudio["resumen"])
-                st.markdown(f"[Leer estudio completo]({estudio['url']})")
+        st.markdown("#### **Conocimiento aplicado es poder.**")
+        st.caption("Descubre cómo la ciencia respalda tu nutrición y entrenamiento.")
+
+        # Función para extraer etiquetas desde resumen o título
+        def extraer_etiquetas(texto):
+            temas = {
+                "proteína": ["proteína", "protein", "whey"],
+                "entrenamiento": ["entrenamiento", "training", "exercise", "físico"],
+                "dieta": ["dieta", "diet", "keto", "mediterránea"],
+                "suplementos": ["supplement", "creatina", "creatine", "bcaa"],
+                "ayuno": ["ayuno", "fasting", "intermittent"],
+                "peso corporal": ["weight loss", "obesity", "adelgazar", "pérdida"],
+                "cardiovascular": ["cardio", "heart", "corazón"],
+                "diabetes": ["diabetes", "glucosa", "insulina"]
+            }
+            etiquetas = set()
+            texto_lower = texto.lower()
+            for tag, palabras in temas.items():
+                if any(p in texto_lower for p in palabras):
+                    etiquetas.add(tag)
+            return etiquetas
+
+        # HTML y estilos del carrusel
+        carrusel_html = """
+        <style>
+        .card-cientifica {
+            flex: 0 0 auto;
+            width: 320px;
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+            border-radius: 12px;
+            box-shadow: 4px 4px 12px rgba(0,0,0,0.3);
+            padding: 16px;
+            transition: transform 0.2s ease-in-out;
+        }
+        .card-cientifica:hover {
+            transform: scale(1.02);
+        }
+        .card-cientifica h4 {
+            margin-top: 8px;
+            font-size: 18px;
+        }
+        .card-cientifica p {
+            font-size: 13px;
+            color: #ccc;
+        }
+        .carrusel-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 10px;
+        }
+        .tag {
+            background-color: #2b2b2b;
+            color: #6dd3ff;
+            font-size: 11px;
+            padding: 4px 8px;
+            margin: 2px 4px 2px 0;
+            display: inline-block;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        </style>
+        <div class="carrusel-container">
+        """
+
+        for est in estudios[:8]:
+            etiquetas = extraer_etiquetas(est["titulo"] + " " + est["resumen"])
+            tags_html = " ".join([f"<span class='tag'>#{tag}</span>" for tag in etiquetas])
+
+            card = f"""
+            <div class="card-cientifica">
+                {tags_html}
+                <h4>{est['titulo'][:60]}...</h4>
+                <p><strong>{est['fecha']}</strong> — {est['autores'][:40]}...</p>
+                <p>{est['resumen'][:110]}...</p>
+                <a href="{est['url']}" target="_blank" style="color: #6dd3ff;">Leer estudio completo</a>
+            </div>
+            """
+            carrusel_html += card
+
+        carrusel_html += "</div>"
+        components.html(carrusel_html, height=370)
     else:
         st.warning("No se pudieron cargar los estudios en este momento.")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# --- Configuración Inicial ---
-st.set_page_config(page_title="Método Cerón", layout="centered")
-st.title("🏋️‍♂️ Método Cerón - Asistente Fitness Inteligente")
-
-# --- Carga animación desde URL ---
-def load_lottie_url(url):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
-
-animacion_news = load_lottie_url("https://assets1.lottiefiles.com/packages/lf20_j1adxtyb.json")
-st_lottie(animacion_news, height=200, key="news_loader")
-
-st.markdown("### 🔬 Estudios científicos recientes sobre nutrición")
-st.caption("Explora los últimos avances y estudios abiertos de nutrición, salud y bienestar:")
-
-# --- Carrusel de estudios científicos ---
-estudios = obtener_estudios_nutricion()
-
-if estudios:
-    carrusel_html = """
-    <div style="display: flex; overflow-x: auto; gap: 16px; padding: 10px;">
-    """
-    for est in estudios[:5]:
-        card = f"""
-        <div style="flex: 0 0 auto; width: 320px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; box-shadow: 2px 2px 5px #ccc;">
-            <div style="padding: 12px;">
-                <strong>{est['titulo'][:70]}...</strong>
-                <p style="font-size: 13px;">{est['resumen'][:100]}...</p>
-                <p style="font-size: 12px; color: gray;">{est['autores']} - {est['fecha']}</p>
-                <a href="{est['url']}" target="_blank">Leer estudio completo</a>
-            </div>
-        </div>
-        """
-        carrusel_html += card
-    carrusel_html += "</div>"
-    components.html(carrusel_html, height=320)
-else:
-    st.info("Cargando estudios científicos...")
-
-# --- Tabs ---
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
-    "🢍 IMC", "🔥 Calorías Objetivo", "🥦 Alimentos",
-    "🏋️ Rutina Cerón", "🍩 Postre Fit", "⏰ Timer",
-    "🍽️ Postres filtrados", "💊 Suplementos", "🛒 Mercado Fit", "📃 Estudios Científicos"
-])
-
-# El resto de las tabs continúa exactamente igual que tu versión anterior.
