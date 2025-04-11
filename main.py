@@ -1,5 +1,3 @@
-# main.py
-import pandas as pd
 import pandas as pd
 import streamlit as st
 from utils.imc import calcular_imc, clasificar_imc
@@ -8,22 +6,70 @@ from utils.alimentos import buscar_alimento
 from utils.ejercicio import generar_rutina_biseriada
 from utils.timer import iniciar_timer_minutos, iniciar_timer_segundos, reproducir_alarma
 from utils.postres import obtener_postre_random, obtener_postre_total_random, obtener_postre_por_categoria, POSTRES_CATEGORIZADOS
-from utils.timer import iniciar_timer_minutos, iniciar_timer_segundos, reproducir_alarma
 from utils.suplementos import recomendar_suplementos
 from utils.lista_mercado import obtener_lista_mercado_fit, generar_lista_personalizada
+from utils.noticias import obtener_estudios_nutricion
+import requests
+from streamlit_lottie import st_lottie
+import streamlit.components.v1 as components
 
+# --- Cache para estudios científicos ---
+@st.cache_data(ttl=3600)
+def obtener_estudios_cached():
+    return obtener_estudios_nutricion()
 
-
+# --- Función para cargar animaciones Lottie desde una URL ---
+def load_lottie_url(url):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
 
 st.set_page_config(page_title="Método Cerón", layout="centered")
 st.title("🏋️‍♂️ Método Cerón - Asistente Fitness Inteligente")
 
-# Tabs
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs([
-    "🧍 IMC", "🔥 Calorías Objetivo", "🥦 Alimentos",
+# --- Animación y carrusel de estudios científicos ---
+st.markdown("### 🧬 Estudios científicos recientes sobre nutrición")
+st.caption("Explora los últimos avances y estudios abiertos de nutrición, salud y bienestar:")
+
+animacion_news = load_lottie_url("https://assets1.lottiefiles.com/packages/lf20_j1adxtyb.json")
+st_lottie(animacion_news, height=200, key="news_loader")
+
+estudios = obtener_estudios_cached()
+if estudios:
+    carrusel_html = """
+    <div style="display: flex; overflow-x: auto; gap: 16px; padding: 10px;">
+    """
+    for est in estudios[:5]:
+        card = f"""
+        <div style="flex: 0 0 auto; width: 320px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; box-shadow: 2px 2px 5px #ccc;">
+            <div style="padding: 12px;">
+                <strong>{est['titulo'][:70]}...</strong>
+                <p style="font-size: 13px;">{est['resumen'][:100]}...</p>
+                <p style="font-size: 12px; color: gray;">{est['autores']} - {est['fecha']}</p>
+                <a href="{est['url']}" target="_blank">Leer estudio completo</a>
+            </div>
+        </div>
+        """
+        carrusel_html += card
+    carrusel_html += "</div>"
+    components.html(carrusel_html, height=330)
+else:
+    st.info("Cargando estudios científicos...")
+
+
+
+
+# --- Tabs ---
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
+    "🢍 IMC", "🔥 Calorías Objetivo", "🥦 Alimentos",
     "🏋️ Rutina Cerón", "🍩 Postre Fit", "⏰ Timer",
-    "🍽️ Postres filtrados", "💊 Autogenerador de suplementos", "🛒 Mercado Fit inteligente"
-    ])
+    "🍽️ Postres filtrados", "💊 Suplementos", "🛒 Mercado Fit", "📃 Estudios Científicos"
+])
+
+
+
+
 
 # -------------------------------
 # TAB 1 - IMC
@@ -251,3 +297,91 @@ with tab9:
         
 
 
+# -------------------------------
+# TAB 10 - Noticias Fitness Diarias
+# -------------------------------
+
+
+with tab10:
+    st.subheader("🧠 Estudios Científicos de Nutrición y Fitness")
+    st.caption("Fuente: Europe PMC")
+
+    estudios = obtener_estudios_nutricion()
+    if estudios:
+        for estudio in estudios:
+            with st.expander(estudio["titulo"]):
+                st.markdown(f"**Autores:** {estudio['autores']}")
+                st.markdown(f"**Fecha:** {estudio['fecha']}")
+                st.write(estudio["resumen"])
+                st.markdown(f"[Leer estudio completo]({estudio['url']})")
+    else:
+        st.warning("No se pudieron cargar los estudios en este momento.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# --- Configuración Inicial ---
+st.set_page_config(page_title="Método Cerón", layout="centered")
+st.title("🏋️‍♂️ Método Cerón - Asistente Fitness Inteligente")
+
+# --- Carga animación desde URL ---
+def load_lottie_url(url):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
+
+animacion_news = load_lottie_url("https://assets1.lottiefiles.com/packages/lf20_j1adxtyb.json")
+st_lottie(animacion_news, height=200, key="news_loader")
+
+st.markdown("### 🔬 Estudios científicos recientes sobre nutrición")
+st.caption("Explora los últimos avances y estudios abiertos de nutrición, salud y bienestar:")
+
+# --- Carrusel de estudios científicos ---
+estudios = obtener_estudios_nutricion()
+
+if estudios:
+    carrusel_html = """
+    <div style="display: flex; overflow-x: auto; gap: 16px; padding: 10px;">
+    """
+    for est in estudios[:5]:
+        card = f"""
+        <div style="flex: 0 0 auto; width: 320px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; box-shadow: 2px 2px 5px #ccc;">
+            <div style="padding: 12px;">
+                <strong>{est['titulo'][:70]}...</strong>
+                <p style="font-size: 13px;">{est['resumen'][:100]}...</p>
+                <p style="font-size: 12px; color: gray;">{est['autores']} - {est['fecha']}</p>
+                <a href="{est['url']}" target="_blank">Leer estudio completo</a>
+            </div>
+        </div>
+        """
+        carrusel_html += card
+    carrusel_html += "</div>"
+    components.html(carrusel_html, height=320)
+else:
+    st.info("Cargando estudios científicos...")
+
+# --- Tabs ---
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
+    "🢍 IMC", "🔥 Calorías Objetivo", "🥦 Alimentos",
+    "🏋️ Rutina Cerón", "🍩 Postre Fit", "⏰ Timer",
+    "🍽️ Postres filtrados", "💊 Suplementos", "🛒 Mercado Fit", "📃 Estudios Científicos"
+])
+
+# El resto de las tabs continúa exactamente igual que tu versión anterior.
