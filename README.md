@@ -111,3 +111,4 @@ Este proyecto ha sido desarrollado por Juan Sebastián Jiménez Cerón, como par
 
 © 2025 - FitData Tracker | Proyecto educativo, funcional y profesional. Todos los derechos reservados.
 
+# fitdata_tracker
