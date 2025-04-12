@@ -1,0 +1,9 @@
+# .streamlit/config.toml
+[server]
+headless = true
+
+[theme]
+base = "dark"
+
+[runner]
+script = "main.py"
