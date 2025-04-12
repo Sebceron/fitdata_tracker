@@ -1,34 +1,67 @@
-import random
-import pandas as pd
+# ============================
+#        CONFIGURACIÓN
+# ============================
+
 import streamlit as st
+
+# Este debe ser el primer comando de Streamlit
+st.set_page_config(page_title="Método Cerón", layout="centered")
+
+# ============================
+#       IMPORTACIONES
+# ============================
+
+# Librerías estándar
+import os
+import sys
+import random
+import requests
+import pandas as pd
+
+# Librerías externas
+from streamlit_lottie import st_lottie
+from streamlit_carousel import carousel
+import streamlit.components.v1 as components
+
+# Estilos globales Apple/Samsung
+with open("styles/main.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+# Ruta absoluta para importar desde cualquier tab
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
+# ============================
+#     FUNCIONES PERSONALIZADAS
+# ============================
+
 from utils.imc import calcular_imc, clasificar_imc
 from utils.calorias import calcular_tmb, calcular_calorias_objetivo
 from utils.alimentos import buscar_alimento
 from utils.ejercicio import generar_rutina_biseriada
 from utils.timer import iniciar_timer_minutos, iniciar_timer_segundos, reproducir_alarma
-from utils.postres import obtener_postre_random, obtener_postre_total_random, obtener_postre_por_categoria, POSTRES_CATEGORIZADOS
+from utils.postres import (
+    obtener_postre_random, obtener_postre_total_random,
+    obtener_postre_por_categoria, POSTRES_CATEGORIZADOS
+)
 from utils.suplementos import recomendar_suplementos
 from utils.lista_mercado import obtener_lista_mercado_fit, generar_lista_personalizada
 from utils.noticias import obtener_estudios_nutricion
-import requests
-from streamlit_lottie import st_lottie
-import streamlit.components.v1 as components
 
+# ============================
+#     FUNCIONES AUXILIARES
+# ============================
 
-# --- Cache para estudios científicos ---
 @st.cache_data(ttl=3600)
 def obtener_estudios_cached():
     return obtener_estudios_nutricion()
 
-# --- Función para cargar animaciones Lottie desde una URL ---
 def load_lottie_url(url):
     r = requests.get(url)
     if r.status_code != 200:
         return None
     return r.json()
 
-st.set_page_config(page_title="Método Cerón", layout="centered")
-st.title("🏋️‍♂️ Método Cerón - Asistente Fitness Inteligente")
+st.title("🏋️‍♂️ Método Cerón")
 
 
 
@@ -119,47 +152,102 @@ tab0, tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10 = st.tabs([
 # -------------------------------
 # TAB 0 - Inicio con Frase Motivacional
 # -------------------------------
-with tab0:
-    st.subheader("✨ Bienvenido al Dashboard del Método Cerón")
 
-    bubble_html = f"""
+
+with tab0:
+    # BLOQUE 1: Hero visual estilo Apple
+    st.markdown("""
+        <div class="hero-section">
+            <h1 class="animate-in text-center">Bienvenido al ecosistema fitness inteligente</h1>
+            <p class="hero-sub animate-slide text-center">
+                Transforma tu cuerpo con ciencia, nutrición y resultados.
+            </p>
+        </div>
+    """, unsafe_allow_html=True)
+
+
+
+
+
+# BLOQUE 2: Frase motivacional del día - estilo minimalista Apple
+st.markdown(f"""
     <style>
-        .bubble-container {{
+        .frase-apple {{
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 30px auto;
+            padding: 1.2rem 0;
+            animation: fadeIn 1s ease-out both;
         }}
-        .bubble {{
-            background-color: #f8f9fa;
-            border: 2px solid #dee2e6;
-            border-radius: 20px;
-            padding: 20px 30px;
-            font-size: 20px;
-            max-width: 700px;
-            color: #212529;
-            font-family: 'Segoe UI', sans-serif;
-            box-shadow: 4px 4px 12px rgba(0,0,0,0.1);
-            position: relative;
+
+        .frase-contenido {{
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.3);  /* Fondo más oscuro para resaltar letra blanca */
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            max-width: 720px;
+            color: #ffffff;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+            line-height: 1.6;
         }}
-        .bubble::after {{
-            content: "";
-            position: absolute;
-            bottom: -20px;
-            left: 50px;
-            border-width: 20px 20px 0;
-            border-style: solid;
-            border-color: #f8f9fa transparent transparent transparent;
+
+        @keyframes fadeIn {{
+            from {{
+                opacity: 0;
+                transform: translateY(10px);
+            }}
+            to {{
+                opacity: 1;
+                transform: translateY(0);
+            }}
         }}
     </style>
-    <div class="bubble-container">
-        <div class="bubble">{frase_seleccionada}</div>
+
+    <div class="frase-apple">
+        <div class="frase-contenido">
+            “{frase_seleccionada}”
+        </div>
     </div>
-    """
+""", unsafe_allow_html=True)
 
-    st.markdown(bubble_html, unsafe_allow_html=True)
-    st.info("Esta frase cambiará aleatoriamente cada vez que recargues la página.")
 
+
+
+
+
+    # BLOQUE 2: Carrusel visual estilo Apple
+st.markdown("""
+<div class="apple-carousel">
+    <div class="carousel-item">
+        <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=1500&q=80" class="carousel-image" />
+        <div class="carousel-caption">
+            <h3>Activa tu potencial</h3>
+            <p>Transforma tu cuerpo desde casa con rutinas personalizadas.</p>
+        </div>
+    </div>
+
+    <div class="carousel-item">
+        <img src="https://images.unsplash.com/photo-1605296866942-59a1b8f5f6f3?auto=format&fit=crop&w=1500&q=80" class="carousel-image" />
+        <div class="carousel-caption">
+            <h3>Nutrición que potencia</h3>
+            <p>Come de forma inteligente, vive con energía real.</p>
+        </div>
+    </div>
+
+    <div class="carousel-item">
+        <img src="https://images.unsplash.com/photo-1581009146145-4f12acf24cba?auto=format&fit=crop&w=1500&q=80" class="carousel-image" />
+        <div class="carousel-caption">
+            <h3>Resultados sostenibles</h3>
+            <p>Sin magia. Solo ciencia, hábitos y consistencia.</p>
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 
 
@@ -487,3 +575,9 @@ with tab10:
         components.html(carrusel_html, height=370)
     else:
         st.warning("No se pudieron cargar los estudios en este momento.")
+
+
+
+
+
+        

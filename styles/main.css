@@ -1,0 +1,64 @@
+/* Carrusel tipo Apple con efecto glass */
+.apple-carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    gap: 2rem;
+    padding: 2rem 1rem;
+}
+.apple-carousel::-webkit-scrollbar {
+    display: none;
+}
+.carousel-item {
+    flex: 0 0 100%;
+    max-width: 100%;
+    position: relative;
+    scroll-snap-align: start;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(12px); /* Glass effect */
+    background: rgba(255, 255, 255, 0.05); /* Light translucent */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.4s ease;
+}
+.carousel-item:hover {
+    transform: scale(1.01);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
+}
+.carousel-image {
+    width: 100%;
+    height: 460px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease-in-out;
+}
+.carousel-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.35); /* More glass-like */
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    color: #fff;
+    text-align: center;
+}
+.carousel-caption h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.3rem;
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.carousel-caption p {
+    font-size: 1rem;
+    font-weight: 400;
+    opacity: 0.85;
+    line-height: 1.4;
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
